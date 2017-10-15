@@ -1,4 +1,12 @@
 
+var firebaseConfig = {
+    apiKey: "AIzaSyClwYtwK0OH96cCKCis8T8KWFL9u8lJfH8",
+    authDomain: "uncbootcampproject1.firebaseapp.com",
+    databaseURL: "https://uncbootcampproject1.firebaseio.com",
+    projectId: "uncbootcampproject1",
+    storageBucket: "uncbootcampproject1.appspot.com",
+    messagingSenderId: "1007244888274"
+};
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
@@ -409,6 +417,7 @@ var authorization = {
 	userEmail: "",
 	userPassword: "",
 	userResults: {},
+  jsonObj: '',
 	errorMessage: undefined,
 	errorCode: undefined,
   loggedIn: false,
@@ -448,12 +457,15 @@ var authorization = {
         authorization.userName =snapshot.val().name;
         authorization.userEmail = snapshot.val().email;
         authorization.newUserPic = snapshot.val().picture;
+        authorization.jsonObj = snapshot.val().jsonObj;
         $("#name").text(authorization.newUserName);
         $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
-         // example sunburst
+         // example sunburst until object is successfully returned
         returnedData.renderSunburst('https://raw.githubusercontent.com/personality-insights/sunburst-chart/master/examples/profiles/en_v3.json');
          // final code sunburst
-        // returnedData.renderSunburst(snapshot.val().jsonObj);
+        //  if(authorization.jsonObj !== '') {
+        //   returnedData.renderSunburst(authorization.jsonObj;
+        // }
       })
       }, function(error) {
     	 authorization.errorCode = error.code;     
