@@ -731,58 +731,6 @@ var authorization = {
   }
 }
 
-var questions = {
-  currentQuestion: 0,
-  questions: [
-  "What type of activities do you enjoy",
-  "Do you enjoy meeting new people",
-  "How do you typically help out others",
-  "Do you often look for the root cause of an issue you are confronted with a road-block",
-  "How do you react to making mistakes",
-  "What do you do when you are disappointed with others",
-  "Do you react immediately or step back and think when confronted with new information",
-  "What do you do when you are disappointed with yourself",
-  "Describe how you approac(h repairing something that is not working",
-  "What type of original ideas do you enjoy",
-  "How do you let people know that they have made a mistake",
-  "Describe your level of modesty when you achieve something important",
-  "How do you react when you are nervous",
-  "What aspects of yourself are you critical about",
-  "When are you comfortable at meeting new people",
-  "Describe your goal-setting activities",
-  "How do you feel about relaxation",
-  "What is your view on weekly meetings when in a team setting",
-  "How comfortable are you with improvising solutions",
-  "What type of role or roles are you comfortable with when on a team",
-  "How do you view lateness in other people",
-  "What do you do when you find yourself under great stress",
-  "How do you view fast-paced workplaces that are demanding",
-  "What is your opinion on the size of your circle of acquaintances",
-  "Describe the type of tv shows you enjoy watching",
-  "How do you view established social rules and conventions",
-  "When is it easy for you to get excited about something",
-  "Do you rely more on feelings that you are having or a logical analysis when resolving an issue",
-  "What types of activities do you do for liesure",
-  "How far in advance do you make plans",
-  "Do you need prolonged periods of solitude after socialization",
-  "How much planning do you put into large decisions",
-  "Are your actions frequently impacted by your emotions",
-  "Do you often contemplate the complexity of life",
-  "How quickly do you tend to complete tasks",
-  "What level of volume do you tend to speak at",
-  "How often do you do something to satisfy your curiousity",
-  "When do you find it easiest to initiate conversations",
-  "Describe your level of relaxation when under a tight deadline",
-  "How do you react when presented with strong emotions",
-  "What frequency to you look for new opportunities",
-  "How often do you deviate from your normal routines",
-  ],
-  wordCount: 0,
-  cycleQuestions: function (i) {
-    $("#questionArea").empty().html("<h2>" + questions.questions[i] + "</h2>");
-  },
-}
-
 var returnedData = {
   oprah: {
     name: 'Oprah Winfrey',
