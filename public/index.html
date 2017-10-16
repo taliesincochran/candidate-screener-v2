@@ -24,8 +24,9 @@
 </head>
 
 <body>
+<!-- sign in module -->
     <div class="container">
-        <div id="signInModal" class="modal fade">
+        <div id="signInModal" class="modal fade" data-keyboard=false data-backdrop = 'static'>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -61,8 +62,9 @@
             </div>
         </div>
     </div>
+<!-- new user module  -->
     <div class="container">
-        <div id="newUserModal" class="modal fade">
+        <div id="newUserModal" class="modal fade" data-keyboard=false data-backdrop = 'static'>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -86,8 +88,9 @@
             </div>
         </div>
     </div>
+<!-- error module -->
     <div class="container">
-        <div id="errorModal" class="modal fade row">
+        <div id="errorModal" class="modal fade row" data-keyboard=false data-backdrop = 'static'>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -140,29 +143,30 @@
             </div>
         </div>
     </div>
-
-    <div id="tabbable-area" class="text-center hidden">
+    <div id="tabbable-area" class="hidden text-center">
         <!-- area where navigation between elements occurs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation"><a href="#sunburst" aria-controls="sunburst" role="tab" data-toggle="tab" aria-expanded="false">Sunburst Chart</a></li>
-            <li role="presentation" class="active"><a href="#compare-table" aria-controls="compare-table" role="tab" data-toggle="tab" aria-expanded="true">Table for Comparison</a></li>
-            <li role="presentation"><a href="#third" aria-controls="third" role="tab" data-toggle="tab" aria-expanded="false">Third Analysis</a></li>
-            <li role="presentation"><a href="#fourth" aria-controls="fourth" role="tab" data-toggle="tab" aria-expanded="false">Fourth Analysis</a></li>
+            <li role="presentation" class="active"><a href="#sunburst" aria-controls="sunburst" role="tab" data-toggle="tab" aria-expanded="true" id="clickSun">Sunburst Chart</a></li>
+            <li role="presentation"><a href="#compare-table" aria-controls="compare-table" role="tab" data-toggle="tab" aria-expanded="false" id="clickTable">Table for Comparison</a></li>
         </ul>
-
+    
         <div class="tab-content">
 
             <!-- area for sunburst upon tab click -->
-            <div role="tabpanel" class="container tab-pane fade" id="sunburst">
+            <div role="tabpanel" class="container tab-pane fade in active" id="sunburst">
                 <div class="row">
                     <div class="col col-xs-12">
-                        <img src="images/Oprah.jpg" id="mySunburst">
+                        <h2>Personality Sunburst Chart</h2>
+                        <div id="sunburstChart"></div>
                     </div> <!-- closes column -->
                 </div> <!-- closes row -->
             </div> <!-- closes container -->
 
             <!-- area for comparitive table -->
-            <div role="tabpanel" class="container tab-pane fade in active" id="compare-table">
+            <div role="tabpanel" class="tab-pane fade" id="compare-table">
+            <style type="text/css">
+                #compare-table {margin:2%;}
+            </style>
                 <div class="row">
                     <div class="col col-xs-12">
 
@@ -170,22 +174,253 @@
                             <thead>
                                 <tr>
                                     <th class="" colspan="3" rowspan="2"></th>
-                                    <th class="text-center" colspan="10">Personalities Listed Below:<br>Comparison of Last 10 Results</th>
+                                    <th class="text-center" colspan="10">Compare Yourself with up to 9 Others Below: <br> Percentages are Based off of Watson's Selected Sample Data</th>
                                 </tr>
 
-                                <tr>
-                                    <th class="name" id="name0"><button class="btn" id="insert0" data-column="column0" data-array="0">Your Results!</button></th>
-                                    <th class="name" id="name1"><button class="btn" id="insert1" data-column="column1" data-array="1">Name Here</button></th>
-                                    <th class="name" id="name2"><button class="btn" id="insert2" data-column="column2" data-array="2">Name Here</button></th>
-                                    <th class="name" id="name3"><button class="btn" id="insert3" data-column="column3" data-array="3">Name Here</button></th>
-                                    <th class="name" id="name4"><button class="btn" id="insert4" data-column="column4" data-array="4">Name Here</button></th>
-                                    <th class="name" id="name5"><button class="btn" id="insert5" data-column="column5" data-array="5">Name Here</button></th>
-                                    <th class="name" id="name6"><button class="btn" id="insert6" data-column="column6" data-array="6">Name Here</button></th>
-                                    <th class="name" id="name7"><button class="btn" id="insert7" data-column="column7" data-array="7">Name Here</button></th>
-                                    <th class="name" id="name8"><button class="btn" id="insert8" data-column="column8" data-array="8">Name Here</button></th>
-                                    <th class="name" id="name9"><button class="btn" id="insert9" data-column="column9" data-array="9">Name Here</button></th>
-                                </tr>
+                                <!-- button area for comparison -->
+                                <tr class="text-center">
+                                    <th class="name text-center" id="name0"><button class="btn btn-link" id="insert0" data-column="column0" data-array="0">Your Results!</button></th>
+                                    <th class="name text-center" id="name1">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column1" data-array="1" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
 
+                                    <th class="name text-center hidden" id="name2">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column2" data-array="2" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+
+                                    <th class="name text-center hidden" id="name3">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column3" data-array="3" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </th>
+                                    <th class="name text-center hidden" id="name4">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column4" data-array="4" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+
+                                    <th class="name text-center hidden" id="name5">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column5" data-array="5" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+
+                                    <th class="name text-center hidden" id="name6">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column6" data-array="6" type="button" id="dropdownMenu6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu6">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+
+                                    <th class="name text-center hidden" id="name7">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column7" data-array="7" type="button" id="dropdownMenu7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu7">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+
+                                    <th class="name text-center hidden" id="name8">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column8" data-array="8" type="button" id="dropdownMenu8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu8">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th class="name text-center hidden" id="name9">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" data-column="column9" data-array="9" type="button" id="dropdownMenu9" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select a Profile
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu9">
+                                                <li><a href="#" class="oprah">Oprah Winfrey</a></li>
+                                                <li><a href="#" class="lebron">Lebron James</a></li>
+                                                <li><a href="#" class="francisco">Don Francisco</a></li>
+                                                <li><a href="#" class="pope">Pope Francis</a></li>
+                                                <li><a href="#" class="trika">Mohamed Aboutreka</a></li>
+                                                <li><a href="#" class="yudarvish">Yu Darvish</a></li>
+                                                <li><a href="#" class="krungy">Sandara Park</a></li>
+                                                <li><a href="#" class="trump">Donald Trump</a></li>
+                                                <li><a href="#" class="obama">Barrack Obama</a></li>
+                                                <li><a href="#" class="gandhi">Mahatma Gandhi</a></li>
+                                                <li><a href="#" class="hitler">Adolf Hitler</a></li>
+                                                <li><a href="#" class="castro">Fidel Castro</a></li>
+                                                <li><a href="#" class="mandela">Nelson Mandela</a></li>
+                                                <li><a href="#" class="thatcher">Margaret Thatcher</a></li>
+                                                <li><a href="#" class="yourself">Yourself Again!</a></li>
+                                                <li role="separator" class="divider"></li>
+                                                <li><a href="#" class="hideme">Hide Column</a></li>
+                                            </ul>
+                                        </div>
+                                    </th>
                             </thead>
 
                             <tbody>
@@ -195,696 +430,675 @@
                                     <th class="" rowspan="6">Openness</th>
                                     <th class="">Adventurousness</th>
                                     <td class="row0 column0">column0</td>
-                                    <td class="row0 column1">column1</td>
-                                    <td class="row0 column2">column2</td>
-                                    <td class="row0 column3">column3</td>
-                                    <td class="row0 column4">column4</td>
-                                    <td class="row0 column5">column5</td>
-                                    <td class="row0 column6">column6</td>
-                                    <td class="row0 column7">column7</td>
-                                    <td class="row0 column8">column8</td>
-                                    <td class="row0 column9">column9</td>
+                                    <td class="row0 column1 hidden">column1</td>
+                                    <td class="row0 column2 hidden">column2</td>
+                                    <td class="row0 column3 hidden">column3</td>
+                                    <td class="row0 column4 hidden">column4</td>
+                                    <td class="row0 column5 hidden">column5</td>
+                                    <td class="row0 column6 hidden">column6</td>
+                                    <td class="row0 column7 hidden">column7</td>
+                                    <td class="row0 column8 hidden">column8</td>
+                                    <td class="row0 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Artistic Interests</th>
                                     <td class="row1 column0">column0</td>
-                                    <td class="row1 column1">column1</td>
-                                    <td class="row1 column2">column2</td>
-                                    <td class="row1 column3">column3</td>
-                                    <td class="row1 column4">column4</td>
-                                    <td class="row1 column5">column5</td>
-                                    <td class="row1 column6">column6</td>
-                                    <td class="row1 column7">column7</td>
-                                    <td class="row1 column8">column8</td>
-                                    <td class="row1 column9">column9</td>
+                                    <td class="row1 column1 hidden">column1</td>
+                                    <td class="row1 column2 hidden">column2</td>
+                                    <td class="row1 column3 hidden">column3</td>
+                                    <td class="row1 column4 hidden">column4</td>
+                                    <td class="row1 column5 hidden">column5</td>
+                                    <td class="row1 column6 hidden">column6</td>
+                                    <td class="row1 column7 hidden">column7</td>
+                                    <td class="row1 column8 hidden">column8</td>
+                                    <td class="row1 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Emotionality</th>
                                     <td class="row2 column0">column0</td>
-                                    <td class="row2 column1">column1</td>
-                                    <td class="row2 column2">column2</td>
-                                    <td class="row2 column3">column3</td>
-                                    <td class="row2 column4">column4</td>
-                                    <td class="row2 column5">column5</td>
-                                    <td class="row2 column6">column6</td>
-                                    <td class="row2 column7">column7</td>
-                                    <td class="row2 column8">column8</td>
-                                    <td class="row2 column9">column9</td>
+                                    <td class="row2 column1 hidden">column1</td>
+                                    <td class="row2 column2 hidden">column2</td>
+                                    <td class="row2 column3 hidden">column3</td>
+                                    <td class="row2 column4 hidden">column4</td>
+                                    <td class="row2 column5 hidden">column5</td>
+                                    <td class="row2 column6 hidden">column6</td>
+                                    <td class="row2 column7 hidden">column7</td>
+                                    <td class="row2 column8 hidden">column8</td>
+                                    <td class="row2 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Imagination</th>
                                     <td class="row3 column0">column0</td>
-                                    <td class="row3 column1">column1</td>
-                                    <td class="row3 column2">column2</td>
-                                    <td class="row3 column3">column3</td>
-                                    <td class="row3 column4">column4</td>
-                                    <td class="row3 column5">column5</td>
-                                    <td class="row3 column6">column6</td>
-                                    <td class="row3 column7">column7</td>
-                                    <td class="row3 column8">column8</td>
-                                    <td class="row3 column9">column9</td>
+                                    <td class="row3 column1 hidden">column1</td>
+                                    <td class="row3 column2 hidden">column2</td>
+                                    <td class="row3 column3 hidden">column3</td>
+                                    <td class="row3 column4 hidden">column4</td>
+                                    <td class="row3 column5 hidden">column5</td>
+                                    <td class="row3 column6 hidden">column6</td>
+                                    <td class="row3 column7 hidden">column7</td>
+                                    <td class="row3 column8 hidden">column8</td>
+                                    <td class="row3 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Intellect</th>
                                     <td class="row4 column0">column0</td>
-                                    <td class="row4 column1">column1</td>
-                                    <td class="row4 column2">column2</td>
-                                    <td class="row4 column3">column3</td>
-                                    <td class="row4 column4">column4</td>
-                                    <td class="row4 column5">column5</td>
-                                    <td class="row4 column6">column6</td>
-                                    <td class="row4 column7">column7</td>
-                                    <td class="row4 column8">column8</td>
-                                    <td class="row4 column9">column9</td>
+                                    <td class="row4 column1 hidden">column1</td>
+                                    <td class="row4 column2 hidden">column2</td>
+                                    <td class="row4 column3 hidden">column3</td>
+                                    <td class="row4 column4 hidden">column4</td>
+                                    <td class="row4 column5 hidden">column5</td>
+                                    <td class="row4 column6 hidden">column6</td>
+                                    <td class="row4 column7 hidden">column7</td>
+                                    <td class="row4 column8 hidden">column8</td>
+                                    <td class="row4 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Authority-Challenging</th>
                                     <td class="row5 column0">column0</td>
-                                    <td class="row5 column1">column1</td>
-                                    <td class="row5 column2">column2</td>
-                                    <td class="row5 column3">column3</td>
-                                    <td class="row5 column4">column4</td>
-                                    <td class="row5 column5">column5</td>
-                                    <td class="row5 column6">column6</td>
-                                    <td class="row5 column7">column7</td>
-                                    <td class="row5 column8">column8</td>
-                                    <td class="row5 column9">column9</td>
+                                    <td class="row5 column1 hidden">column1</td>
+                                    <td class="row5 column2 hidden">column2</td>
+                                    <td class="row5 column3 hidden">column3</td>
+                                    <td class="row5 column4 hidden">column4</td>
+                                    <td class="row5 column5 hidden">column5</td>
+                                    <td class="row5 column6 hidden">column6</td>
+                                    <td class="row5 column7 hidden">column7</td>
+                                    <td class="row5 column8 hidden">column8</td>
+                                    <td class="row5 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="" rowspan="6">Conscientiousness</th>
                                     <th class="">Achievement Striving</th>
                                     <td class="row6 column0">column0</td>
-                                    <td class="row6 column1">column1</td>
-                                    <td class="row6 column2">column2</td>
-                                    <td class="row6 column3">column3</td>
-                                    <td class="row6 column4">column4</td>
-                                    <td class="row6 column5">column5</td>
-                                    <td class="row6 column6">column6</td>
-                                    <td class="row6 column7">column7</td>
-                                    <td class="row6 column8">column8</td>
-                                    <td class="row6 column9">column9</td>
+                                    <td class="row6 column1 hidden">column1</td>
+                                    <td class="row6 column2 hidden">column2</td>
+                                    <td class="row6 column3 hidden">column3</td>
+                                    <td class="row6 column4 hidden">column4</td>
+                                    <td class="row6 column5 hidden">column5</td>
+                                    <td class="row6 column6 hidden">column6</td>
+                                    <td class="row6 column7 hidden">column7</td>
+                                    <td class="row6 column8 hidden">column8</td>
+                                    <td class="row6 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Cautiousness</th>
                                     <td class="row7 column0">column0</td>
-                                    <td class="row7 column1">column1</td>
-                                    <td class="row7 column2">column2</td>
-                                    <td class="row7 column3">column3</td>
-                                    <td class="row7 column4">column4</td>
-                                    <td class="row7 column5">column5</td>
-                                    <td class="row7 column6">column6</td>
-                                    <td class="row7 column7">column7</td>
-                                    <td class="row7 column8">column8</td>
-                                    <td class="row7 column9">column9</td>
+                                    <td class="row7 column1 hidden">column1</td>
+                                    <td class="row7 column2 hidden">column2</td>
+                                    <td class="row7 column3 hidden">column3</td>
+                                    <td class="row7 column4 hidden">column4</td>
+                                    <td class="row7 column5 hidden">column5</td>
+                                    <td class="row7 column6 hidden">column6</td>
+                                    <td class="row7 column7 hidden">column7</td>
+                                    <td class="row7 column8 hidden">column8</td>
+                                    <td class="row7 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Dutifulness</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Orderliness</th>
                                     <td class="row9 column0">column0</td>
-                                    <td class="row9 column1">column1</td>
-                                    <td class="row9 column2">column2</td>
-                                    <td class="row9 column3">column3</td>
-                                    <td class="row9 column4">column4</td>
-                                    <td class="row9 column5">column5</td>
-                                    <td class="row9 column6">column6</td>
-                                    <td class="row9 column7">column7</td>
-                                    <td class="row9 column8">column8</td>
-                                    <td class="row9 column9">column9</td>
+                                    <td class="row9 column1 hidden">column1</td>
+                                    <td class="row9 column2 hidden">column2</td>
+                                    <td class="row9 column3 hidden">column3</td>
+                                    <td class="row9 column4 hidden">column4</td>
+                                    <td class="row9 column5 hidden">column5</td>
+                                    <td class="row9 column6 hidden">column6</td>
+                                    <td class="row9 column7 hidden">column7</td>
+                                    <td class="row9 column8 hidden">column8</td>
+                                    <td class="row9 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Self-Discipline</th>
                                     <td class="row9 column0">column0</td>
-                                    <td class="row9 column1">column1</td>
-                                    <td class="row9 column2">column2</td>
-                                    <td class="row9 column3">column3</td>
-                                    <td class="row9 column4">column4</td>
-                                    <td class="row9 column5">column5</td>
-                                    <td class="row9 column6">column6</td>
-                                    <td class="row9 column7">column7</td>
-                                    <td class="row9 column8">column8</td>
-                                    <td class="row9 column9">column9</td>
+                                    <td class="row9 column1 hidden">column1</td>
+                                    <td class="row9 column2 hidden">column2</td>
+                                    <td class="row9 column3 hidden">column3</td>
+                                    <td class="row9 column4 hidden">column4</td>
+                                    <td class="row9 column5 hidden">column5</td>
+                                    <td class="row9 column6 hidden">column6</td>
+                                    <td class="row9 column7 hidden">column7</td>
+                                    <td class="row9 column8 hidden">column8</td>
+                                    <td class="row9 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Self-Efficacy</th>
                                     <td class="row10 column0">column0</td>
-                                    <td class="row10 column1">column1</td>
-                                    <td class="row10 column2">column2</td>
-                                    <td class="row10 column3">column3</td>
-                                    <td class="row10 column4">column4</td>
-                                    <td class="row10 column5">column5</td>
-                                    <td class="row10 column6">column6</td>
-                                    <td class="row10 column7">column7</td>
-                                    <td class="row10 column8">column8</td>
-                                    <td class="row10 column9">column9</td>
+                                    <td class="row10 column1 hidden">column1</td>
+                                    <td class="row10 column2 hidden">column2</td>
+                                    <td class="row10 column3 hidden">column3</td>
+                                    <td class="row10 column4 hidden">column4</td>
+                                    <td class="row10 column5 hidden">column5</td>
+                                    <td class="row10 column6 hidden">column6</td>
+                                    <td class="row10 column7 hidden">column7</td>
+                                    <td class="row10 column8 hidden">column8</td>
+                                    <td class="row10 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="" rowspan="6">Extraversion</th>
                                     <th class="">Activity Level</th>
                                     <td class="row11 column0">column0</td>
-                                    <td class="row11 column1">column1</td>
-                                    <td class="row11 column2">column2</td>
-                                    <td class="row11 column3">column3</td>
-                                    <td class="row11 column4">column4</td>
-                                    <td class="row11 column5">column5</td>
-                                    <td class="row11 column6">column6</td>
-                                    <td class="row11 column7">column7</td>
-                                    <td class="row11 column8">column8</td>
-                                    <td class="row11 column9">column9</td>
+                                    <td class="row11 column1 hidden">column1</td>
+                                    <td class="row11 column2 hidden">column2</td>
+                                    <td class="row11 column3 hidden">column3</td>
+                                    <td class="row11 column4 hidden">column4</td>
+                                    <td class="row11 column5 hidden">column5</td>
+                                    <td class="row11 column6 hidden">column6</td>
+                                    <td class="row11 column7 hidden">column7</td>
+                                    <td class="row11 column8 hidden">column8</td>
+                                    <td class="row11 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Assertiveness</th>
                                     <td class="row12 column0">column0</td>
-                                    <td class="row12 column1">column1</td>
-                                    <td class="row12 column2">column2</td>
-                                    <td class="row12 column3">column3</td>
-                                    <td class="row12 column4">column4</td>
-                                    <td class="row12 column5">column5</td>
-                                    <td class="row12 column6">column6</td>
-                                    <td class="row12 column7">column7</td>
-                                    <td class="row12 column8">column8</td>
-                                    <td class="row12 column9">column9</td>
+                                    <td class="row12 column1 hidden">column1</td>
+                                    <td class="row12 column2 hidden">column2</td>
+                                    <td class="row12 column3 hidden">column3</td>
+                                    <td class="row12 column4 hidden">column4</td>
+                                    <td class="row12 column5 hidden">column5</td>
+                                    <td class="row12 column6 hidden">column6</td>
+                                    <td class="row12 column7 hidden">column7</td>
+                                    <td class="row12 column8 hidden">column8</td>
+                                    <td class="row12 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="">Cheerfulness</th>
                                     <td class="row13 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Excitement-Seeking</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Outgoing</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Gregariousness</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 " rowspan="6">Agreeableness</th>
                                     <th class="row8 ">Altruism</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Cooperation</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Modesty</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Uncompromising</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Sympathy</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Trust</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 " rowspan="6">Emotional Range</th>
                                     <th class="row8 ">Fiery</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Prone to Worry</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Melancholy</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Immoderation</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Self-Consciousness</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Susceptible to Stress</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 " colspan="2" rowspan="12">Needs</th>
                                     <th class="row8 ">Challenge</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Closeness</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Curiosity</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Excitement</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Harmony</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Ideal</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Liberty</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Love</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Practicality</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Self-Expression</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Stability</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Structure</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 " colspan="2" rowspan="5">Values</th>
                                     <th class="row8 ">Conservation</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Openness to Change</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Hedonism</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Self-Enhancement</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
 
                                 <tr>
                                     <th class="row8 ">Self-Transcendence</th>
                                     <td class="row8 column0">column0</td>
-                                    <td class="row8 column1">column1</td>
-                                    <td class="row8 column2">column2</td>
-                                    <td class="row8 column3">column3</td>
-                                    <td class="row8 column4">column4</td>
-                                    <td class="row8 column5">column5</td>
-                                    <td class="row8 column6">column6</td>
-                                    <td class="row8 column7">column7</td>
-                                    <td class="row8 column8">column8</td>
-                                    <td class="row8 column9">column9</td>
+                                    <td class="row8 column1 hidden">column1</td>
+                                    <td class="row8 column2 hidden">column2</td>
+                                    <td class="row8 column3 hidden">column3</td>
+                                    <td class="row8 column4 hidden">column4</td>
+                                    <td class="row8 column5 hidden">column5</td>
+                                    <td class="row8 column6 hidden">column6</td>
+                                    <td class="row8 column7 hidden">column7</td>
+                                    <td class="row8 column8 hidden">column8</td>
+                                    <td class="row8 column9 hidden">column9</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div> <!-- closes column -->
                 </div> <!-- closes row -->
             </div> <!-- closes container -->
-
-            <!-- third area for reviewing profile upon tab click -->
-            <div role="tabpanel" class="container tab-pane fade" id="third">
-                <div class="row">
-                    <div class="col col-xs-12">
-                        Third type of comparison
-
-                    </div> <!-- closes column -->
-                </div> <!-- closes row -->
-            </div> <!-- closes container -->
-
-            <!-- fourth area for reviewing profile upon tab click -->
-            <div role="tabpanel" class="container tab-pane fade" id="fourth">
-                <div class="row">
-                    <div class="col col-xs-12">
-                        Fourth type of comparison
-
-                    </div> <!-- closes column -->
-                </div> <!-- closes row -->
-            </div> <!-- closes container -->
-
         </div>
     </div>
 
-<!--     <script type="text/javascript" src="../config.js"></script> -->
+    <script type= "text/javascript" src = "javascript/config.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>
 </html>

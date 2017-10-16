@@ -1,10 +1,10 @@
 var firebaseConfig = {
-  apiKey: "AIzaSyClwYtwK0OH96cCKCis8T8KWFL9u8lJfH8",
-  authDomain: "uncbootcampproject1.firebaseapp.com",
-  databaseURL: "https://uncbootcampproject1.firebaseio.com",
-  projectId: "uncbootcampproject1",
-  storageBucket: "uncbootcampproject1.appspot.com",
-  messagingSenderId: "1007244888274"
+    apiKey: "AIzaSyClwYtwK0OH96cCKCis8T8KWFL9u8lJfH8",
+    authDomain: "uncbootcampproject1.firebaseapp.com",
+    databaseURL: "https://uncbootcampproject1.firebaseio.com",
+    projectId: "uncbootcampproject1",
+    storageBucket: "uncbootcampproject1.appspot.com",
+    messagingSenderId: "1007244888274"
 };
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
@@ -624,44 +624,44 @@ var authorization = {
     ],
     "warnings": []
   },
-  newUserEmail: "",
-  newUserPassword:  "",
-  newUserName: "",
-  newUserPic: "",
-  userEmail: "",
-  userPassword: "",
-  userResults: {},
+	newUserEmail: "",
+	newUserPassword:  "",
+	newUserName: "",
+	newUserPic: "",
+	userEmail: "",
+	userPassword: "",
+	userResults: {},
   jsonObj: '',
-  errorMessage: undefined,
-  errorCode: undefined,
+	errorMessage: undefined,
+	errorCode: undefined,
   loggedIn: false,
-  hideModal: function() {
-    $("#signInModal").modal('hide');
-  },
-  showModal: function() {
+	hideModal: function() {
+  	$("#signInModal").modal('hide');
+	},
+	showModal: function() {
     if(!authorization.loggedIn) {
-     $('#signInModal').modal('show');
+  	 $('#signInModal').modal('show');
     }
-  },
-  showError: function() {
-    $('#errorModal').modal('show');
-  },  
-  errorModal: function() {
-    $("#error").html(authorization.errorMessage);
-    $("#errorModal").modal('show');
+	},
+	showError: function() {
+  	$('#errorModal').modal('show');
+	},  
+	errorModal: function() {
+  	$("#error").html(authorization.errorMessage);
+  	$("#errorModal").modal('show');
     console.log(authorization.errorMessage);
-  },
-  signUp : function (email, password) {
-    console.log("signUp fired");
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(authorization.makeNewProfile, function(error) {
-      authorization.errorCode = error.code;     
-      authorization.errorMessage = error.message;
-      authorization.errorModal(); 
-    });
-  },
-  signIn: function(email,password) {
-    console.log("signIn fired");  
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
+	},
+	signUp : function (email, password) {
+  	console.log("signUp fired");
+  	firebase.auth().createUserWithEmailAndPassword(email, password).then(authorization.makeNewProfile, function(error) {
+    	authorization.errorCode = error.code;     
+    	authorization.errorMessage = error.message;
+    	authorization.errorModal(); 
+  	});
+	},
+	signIn: function(email,password) {
+  	console.log("signIn fired");  
+  	firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
       authorization.hideModal;
       authorization.loggedIn = true;
       var temp = authorization.userEmail.replace("@","AT").replace(".","dot");
@@ -682,37 +682,37 @@ var authorization = {
         // }
       })
       }, function(error) {
-       authorization.errorCode = error.code;     
-       authorization.errorMessage = error.message;
-       authorization.errorModal();  
+    	 authorization.errorCode = error.code;     
+    	 authorization.errorMessage = error.message;
+    	 authorization.errorModal();  
     })      
   },  
-  
-  getNewUser: function () {
-    authorization.newUserEmail = $("#newUserEmail").val().trim();
-    console.log(authorization.newUserEmail);
-    authorization.newUserPassword = $("#newUserPassword").val().trim();
-    console.log(authorization.newUserPassword);
-  },
-  establishedUser : function() {
-    authorization.userEmail = $("#userEmail").val().trim();
-    console.log(authorization.userEmail);
-    authorization.userPassword = $("#userPassword").val().trim();
-    console.log(authorization.userPassword);
-  },
-  makeNewProfile: function() {
-    // authorization.hideModal() 
+	
+	getNewUser: function () {
+  	authorization.newUserEmail = $("#newUserEmail").val().trim();
+  	console.log(authorization.newUserEmail);
+  	authorization.newUserPassword = $("#newUserPassword").val().trim();
+  	console.log(authorization.newUserPassword);
+	},
+	establishedUser : function() {
+  	authorization.userEmail = $("#userEmail").val().trim();
+  	console.log(authorization.userEmail);
+  	authorization.userPassword = $("#userPassword").val().trim();
+  	console.log(authorization.userPassword);
+	},
+	makeNewProfile: function() {
+  	// authorization.hideModal() 
     authorization.loggedIn = true;
-    $("#newUserModal").modal("show").modal({
+  	$("#newUserModal").modal("show").modal({
       keyboard: false,
       backdrop: 'static'
     });
-    $("#submitNewUserProfile").one("click", function() {
-      authorization.newUserPicture = $("#newUserPicture").val();
+  	$("#submitNewUserProfile").one("click", function() {
+    	authorization.newUserPicture = $("#newUserPicture").val();
       if(authorization.newUserPicture === "") {
         authorization.newUserPicture = "https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg";
       }
-      authorization.newUserName = $("#newUserName").val().trim();
+    	authorization.newUserName = $("#newUserName").val().trim();
       var temp = authorization.newUserEmail.replace("@","AT").replace(".","dot");
       console.log(temp);
       var userRef = database.ref("/users/" + temp);
@@ -729,6 +729,58 @@ var authorization = {
       $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
     })
   }
+}
+
+var questions = {
+  currentQuestion: 0,
+  questions: [
+  "What type of activities do you enjoy",
+  "Do you enjoy meeting new people",
+  "How do you typically help out others",
+  "Do you often look for the root cause of an issue you are confronted with a road-block",
+  "How do you react to making mistakes",
+  "What do you do when you are disappointed with others",
+  "Do you react immediately or step back and think when confronted with new information",
+  "What do you do when you are disappointed with yourself",
+  "Describe how you approac(h repairing something that is not working",
+  "What type of original ideas do you enjoy",
+  "How do you let people know that they have made a mistake",
+  "Describe your level of modesty when you achieve something important",
+  "How do you react when you are nervous",
+  "What aspects of yourself are you critical about",
+  "When are you comfortable at meeting new people",
+  "Describe your goal-setting activities",
+  "How do you feel about relaxation",
+  "What is your view on weekly meetings when in a team setting",
+  "How comfortable are you with improvising solutions",
+  "What type of role or roles are you comfortable with when on a team",
+  "How do you view lateness in other people",
+  "What do you do when you find yourself under great stress",
+  "How do you view fast-paced workplaces that are demanding",
+  "What is your opinion on the size of your circle of acquaintances",
+  "Describe the type of tv shows you enjoy watching",
+  "How do you view established social rules and conventions",
+  "When is it easy for you to get excited about something",
+  "Do you rely more on feelings that you are having or a logical analysis when resolving an issue",
+  "What types of activities do you do for liesure",
+  "How far in advance do you make plans",
+  "Do you need prolonged periods of solitude after socialization",
+  "How much planning do you put into large decisions",
+  "Are your actions frequently impacted by your emotions",
+  "Do you often contemplate the complexity of life",
+  "How quickly do you tend to complete tasks",
+  "What level of volume do you tend to speak at",
+  "How often do you do something to satisfy your curiousity",
+  "When do you find it easiest to initiate conversations",
+  "Describe your level of relaxation when under a tight deadline",
+  "How do you react when presented with strong emotions",
+  "What frequency to you look for new opportunities",
+  "How often do you deviate from your normal routines",
+  ],
+  wordCount: 0,
+  cycleQuestions: function (i) {
+    $("#questionArea").empty().html("<h2>" + questions.questions[i] + "</h2>");
+  },
 }
 
 var returnedData = {
@@ -815,3 +867,86 @@ var returnedData = {
     });
   }
 }
+
+$(document).ready(function(){   
+  // var json = require(["/en_v3.json"]); //with path
+  questions.cycleQuestions(0);
+  authorization.showModal();
+  console.log("fired");   
+  $('#submitNewUser').on("click", function (event) {
+    event.preventDefault();
+    authorization.getNewUser();     
+    authorization.signUp(authorization.newUserEmail, authorization.newUserPassword); 
+  });
+  $('#submitUser').on("click", function(event) {
+    event.preventDefault();
+    authorization.establishedUser();      
+    authorization.signIn(authorization.userEmail, authorization.userPassword);
+  });
+  $("#errorButton").on("click", function() {
+    $("#error").html(authorization.errorMessage);
+    authorization.showModal();
+    // $('#errorModal').modal('hide');
+    console.log(authorization.errorMessage);
+  });
+  $('#submitNewUserProfile').on('click', function() {
+    authorization.makeNewProfile();
+    // authorization.hideModal();
+  });
+  $("#sendRecordings").on("click", app.sendRecordings);
+  app.record();
+  $("#getNextQuestion").on("click", function () {
+    console.log("next question button pressed");
+    if(questions.currentQuestion < questions.questions.length && questions.wordCount < 1000) {
+      questions.currentQuestion++;
+      questions.cycleQuestions(questions.currentQuestion);
+      console.log(questions.currentQuestion);
+    } else if (questions.wordCount > 1000 || questions.currentQuestion > questions.questions.length -1) {
+      $("#recordingArea").addClass("hidden");
+      $("#tabbable-area").removeClass("hidden");
+      // code to get results
+    }
+  });
+  // this code must be removed before launch
+  $("#test-button").on("click", function() {
+    $("#recordingArea").addClass("hidden");
+    $("#tabbable-area").removeClass('hidden')
+  });
+  // end temp code
+  $("#clickTable").on("click", function() {
+    $("td.column" + 0).each(function(i,cell){
+        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %"); 
+    })
+  })
+  $(".oprah, .lebron, .francisco, .pope, .trika, .yudarvish, .krungy, .trump, .obama, .gandhi, .hitler, .castro, .mandela, .thatcher").on("click", function(){
+    var target = $(event.target).attr("class");
+    var targetName = returnedData[target].name;
+    var targetNumber = returnedData[target].percentile;
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).removeClass("hidden");
+    $(event.target).closest("div").children("button").html(targetName + " ").append($("<span class='caret'>"));
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
+        $(cell).text(Math.round(targetNumber[i] * 100) + " %");
+    })
+    $(this).closest("th").next("th").removeClass("hidden");
+})
+  $(".hideme").on("click", function(){
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).addClass("hidden");
+    $(event.target).closest("div").children("button").html("Select a Profile" + " ").append($("<span class='caret'>"));
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
+        $(cell).text(""); 
+    })
+    $(this).closest("th").addClass("hidden");
+})
+  $(".yourself").on("click", function(){
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).removeClass("hidden");
+    $(event.target).closest("div").children("button").html("Your Results!" + " ").append($("<span class='caret'>"));
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
+        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %");   
+    })
+    $(this).closest("th").next("th").removeClass("hidden");
+})
+  $("#insert0").on("click", function(){
+      $("td").removeClass("hidden");
+      $("th").removeClass("hidden");
+  })
+});
