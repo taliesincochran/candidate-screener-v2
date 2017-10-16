@@ -815,8 +815,37 @@ var returnedData = {
     });
   }
 }
+var visualize = function () {
+  var context = new AudioContext();
+  var visCanvas = document.getElementById('visualizer')
+  var visualizer = new App.FrequencyVisualizer(context, visCanvas);
+  var gain = 0;
+  var audioSource
 
+  navigator.getUserMedia =
+    navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia;
+
+  if (navigator.getUserMedia) {
+    navigator.getUserMedia (
+      {
+        audio: true,
+        video: false
+      },
+      function (stream) {
+        audioSource = context.createMediaStreamSource(stream);
+        visualizer.acceptConnection(audioSource);
+      },
+      function (err) {
+         console.log('Error initializing user media stream: ' + err);
+      }
+    );
+  }
+};
 $(document).ready(function(){   
+  visualize();
   // var json = require(["/en_v3.json"]); //with path
   questions.cycleQuestions(0);
   authorization.showModal();
