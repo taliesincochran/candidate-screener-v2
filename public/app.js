@@ -1,4 +1,3 @@
-
 var firebaseConfig = {
     apiKey: "AIzaSyClwYtwK0OH96cCKCis8T8KWFL9u8lJfH8",
     authDomain: "uncbootcampproject1.firebaseapp.com",
@@ -10,62 +9,70 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
-
 var app = {
-  chunks: [],
+  wordCount: 0,
   recordings: [],
-  arrayBuffer: undefined,
+  blob: undefined,
+  answer: "",
+  answerArr: [],
+  personalityProfile: {},
   record: () => {
     $("#recordButton").on("click", (e) => {
-      $("#recordButton").replaceWith("<img src='./images/cancel64.png' id='stop'>");
+      $("#recordButton").replaceWith("<image src='./images/cancel64.png' id='stop'></image>");
 
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(handleSuccess); 
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(handleSuccess); 
     });
 
     var handleSuccess = (stream) => {
-      var mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start(3000);
+      var mediaRecorder = new MediaRecorder(stream, {
+        mimeType: "audio/webm;codecs=opus"
+      });
+      mediaRecorder.start();
       mediaRecorder.addEventListener('dataavailable', (e) => {
-        console.log('avail: ', e.data);
-        app.chunks.push(e.data);
+        app.blob = e.data;
       });
       mediaRecorder.addEventListener('stop', (e) => {
-        var blob = new Blob(app.chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        var audioURL = window.URL.createObjectURL(blob);
-        var fileReader = new FileReader();
-        // var audioCtx = new AudioContext();
-        
-        fileReader.readAsArrayBuffer(blob);
-        fileReader.onloadend = () => {
-          app.arrayBuffer = fileReader.result;
-          app.sendRecordings();
-        }
-
-        app.recordings.push(blob);
-        app.chunks = [];
-        
-        $("#player").attr('src', audioURL);
+        app.sendRecordings();
       })
 
-      //TODO: Cycle through questions on this stop/click
       $("#stop").on('click', () => {
+        console.log("stop clicked");
         mediaRecorder.stop();
-        $("#stop").replaceWith("<img src='./images/record64.png' id='recordButton'>");
+        $("#stop").replaceWith("<image src='./images/record64.png' id='recordButton'></image>");
         app.record();
+        if (app.wordCount >= 500) {
+          $("#getPersonalityBtn").removeClass("disabled");
+        };
+        questions.cycleQuestions()
       });
     };
   },
   sendRecordings: () => {
+    console.log(app.blob);
+    var form = new FormData();
+    form.append('fname', 'test.webm')
+    form.append('data', app.blob);
+
     $.ajax({
-      url: '/toServer',
-      data: app.arrayBuffer,
-      responseType:'arraybuffer',
+      url: '/toSpeech',
+      data: form,
       processData: false,
+      contentType: false,
       type: "POST"
     })
-    .done(function() {
+    .done(function(res) {
       console.log("success");
+      var transArr = [];
+      var trans = res.results;
+
+      for (var i=0; i<trans.length; i++) {
+        transArr.push(res.results[i].alternatives[0].transcript);
+      };
+      app.answer = transArr.join("");
+      app.answerArr.push(app.answer);
+      console.log(app.answerArr);
+      app.wordCounter();
     })
     .fail(function() {
       console.log("error");
@@ -73,8 +80,215 @@ var app = {
     .always(function() {
       console.log("complete");
     });
+  },
+  wordCounter: () => {
+    var answerLength = app.answer.split(" ");
+    app.wordCount += answerLength.length;
+    $("#wordCount").html(`Word Count: ${app.wordCount}`);
+  },
+  checkPersonality: () => {
+    var arrJoin = app.answerArr.join("");
+    console.log('answerArr:', typeof arrJoin);
+
+    $.ajax({
+      url: '/toPersonality',
+      data: {
+        "arrJoin": arrJoin
+      },
+      dataType: 'json',
+      type: "POST"
+    })
+    .done(function(res) {
+      console.log('success');
+      console.log(res);
+      app.personalityProfile = res;
+    })
   }
 }
+
+var questions = {
+  currentQuestion: 0,
+  questions: [
+    "Tell me about yourself.",
+    "What are your strengths?",
+    "What are your weaknesses?",
+    "Why do you want this job?",
+    "Where would you like to be in your career five years from now?",
+    "What\'s your ideal company?",
+    "What attracted you to this company?",
+    "Why should we hire you?",
+    "What did you like least about your last job?",
+    "When were you most satisfied in your job?",
+    "What can you do for us that other candidates can\'t?",
+    "What were the responsibilities of your last position?",
+    "Why are you leaving your present job?",
+    "What do you know about this industry?",
+    "What do you know about our company?",
+    "Are you willing to relocate?",
+    "What was the last project you led, and what was its outcome?",
+    "Give me an example of a time that you felt you went above and beyond the call of duty at work.",
+    "Can you describe a time when your work was criticized?",
+    "Have you ever been on a team where someone was not pulling their own weight? How did you handle it?",
+    "Tell me about a time when you had to give someone difficult feedback. How did you handle it?",
+    "What is your greatest failure, and what did you learn from it?",
+    "How do you handle working with people who annoy you?",
+    "If I were your supervisor and asked you to do something that you disagreed with, what would you do?",
+    "What was the most difficult period in your life, and how did you deal with it?",
+    "Give me an example of a time you did something wrong. How did you handle it?",
+    "Tell me about a time where you had to deal with conflict on the job.",
+    "If you were at a business lunch and you ordered a rare steak and they brought it to you well done, what would you do?",
+    "If you found out your company was doing something against the law, like fraud, what would you do?",
+    "What assignment was too difficult for you, and how did you resolve the issue?",
+    "What/\'s the most difficult decision you\'ve made in the last two years and how did you come to that decision?",
+    "Describe how you would handle a situation if you were required to finish multiple tasks by the end of the day, and there was no conceivable way that you could finish them.",
+    "What salary are you seeking?",
+    "What\'s your salary history?",
+    "If I were to give you this salary you requested but let you write your job description for the next year, what would it say?",
+    "What are you looking for in terms of career development?",
+    "How do you want to improve yourself in the next year?",
+    "What kind of goals would you have in mind if you got this job?",
+    "If I were to ask your last supervisor to provide you additional training or exposure, what would she suggest?",
+    "How would you go about establishing your credibility quickly with the team?",
+    "How long will it take for you to make a significant contribution?",
+    "What do you see yourself doing within the first 30 days of this job?",
+    "If selected for this position, can you describe your strategy for the first 90 days?",
+    "How would you describe your work style? ",
+    "What would be your ideal working environment?",
+    "What do you look for in terms of culture—structured or entrepreneurial? ",
+    "Give examples of ideas you\'ve had or implemented.",
+    "What techniques and tools do you use to keep yourself organized?",
+    "If you had to choose one, would you consider yourself a big-picture person or a detail-oriented person?",
+    "Tell me about your proudest achievement.",
+    "Who was your favorite manager and why?",
+    "What do you think of your previous boss?",
+    "Was there a person in your career who really made a difference?",
+    "What kind of personality do you work best with and why?",
+    "What are you most proud of? ",
+    "What do you like to do?",
+    "What are your lifelong dreams?",
+    "What do you ultimately want to become?",
+    "What is your personal mission statement?",
+    "What are three positive things your last boss would say about you?",
+    "What negative thing would your last boss say about you?",
+    "What three character traits would your friends use to describe you?",
+    "What are three positive character traits you don\'t have?",
+    "If you were interviewing someone for this position, what traits would you look for?",
+    "List five words that describe your character.",
+    "Who has impacted you most in your career and how?",
+    "What is your greatest fear?",
+    "What is your biggest regret and why?",
+    "What\'s the most important thing you learned in school?",
+    "Why did you choose your major?",
+    "What will you miss about your present/last job?",
+    "What is your greatest achievement outside of work?",
+    "What are the qualities of a good leader? A bad leader?",
+    "Do you think a leader should be feared or liked?",
+    "How do you feel about taking no for an answer?",
+    "How would you feel about working for someone who knows less than you?",
+    "How do you think I rate as an interviewer?",
+    "Tell me one thing about yourself you wouldn\'t want me to know.",
+    "Tell me the difference between good and exceptional.",
+    "What kind of car do you drive?",
+    "If you could be anywhere in the world right now, where would you be?",
+    "What\'s the last book you read?",
+    "What magazines do you subscribe to?",
+    "What\'s the best movie you\'ve seen in the last year?",
+    "What would you do if you won the lottery?",
+    "Who are your heroes?",
+    "What do you like to do for fun?",
+    "What do you do in your spare time?",
+    "What is your favorite memory from childhood?",
+    "How many times do a clock\'s hands overlap in a day?",
+    "How would you weigh a plane without scales?",
+    "Tell me 10 ways to use a pencil other than writing.",
+    "If you were an animal, which one would you want to be?",
+    "Why is there fuzz on a tennis ball?",
+    "If you could choose one superhero power, what would it be and why?",
+    "If you could get rid of any one of the US states, which one would you get rid of and why?",
+    "With your eyes closed, tell me step-by-step how to tie my shoes."
+    ],
+  cycleQuestions: function () {
+    $("#questionArea").empty().html("<h2>" + questions.questions[questions.currentQuestion] + "</h2>");
+    questions.currentQuestion++;
+  },
+}
+
+$(document).ready(function(){   
+  // var json = require(["/en_v3.json"]); //with path
+  questions.cycleQuestions();
+  authorization.showModal();
+  $("#sunburstArea").hide();
+  console.log("fired");   
+  $('#submitNewUser').on("click", function (event) {
+    event.preventDefault();
+    authorization.getNewUser();     
+    authorization.signUp(authorization.newUserEmail, authorization.newUserPassword); 
+  });
+  $('#submitUser').on("click", function(event) {
+    event.preventDefault();
+    authorization.establishedUser();      
+    authorization.signIn(authorization.userEmail, authorization.userPassword);
+  });
+  $("#errorButton").on("click", function() {
+    $("#error").html(authorization.errorMessage);
+    authorization.showModal();
+    // $('#errorModal').modal('hide');
+    console.log(authorization.errorMessage);
+  });
+  $('#submitNewUserProfile').on('click', function() {
+    authorization.makeNewProfile();
+    // authorization.hideModal();
+  });
+  $("#sendRecordings").on("click", app.sendRecordings);
+  app.record();
+  // this code must be removed before launch
+  $("#test-button").on("click", function() {
+    $("#recordingArea").addClass("hidden");
+    $("#tabbable-area").removeClass('hidden')
+  });
+  // end temp code
+  $("#clickTable").on("click", function() {
+    $("td.column" + 0).each(function(i,cell){
+        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %"); 
+    })
+  })
+  $(".oprah, .lebron, .francisco, .pope, .trika, .yudarvish, .krungy, .trump, .obama, .gandhi, .hitler, .castro, .mandela, .thatcher").on("click", function(){
+    var target = $(event.target).attr("class");
+    var targetName = returnedData[target].name;
+    var targetNumber = returnedData[target].percentile;
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).removeClass("hidden");
+    $(event.target).closest("div").children("button").html(targetName + " ").append($("<span class='caret'>"));
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
+        $(cell).text(Math.round(targetNumber[i] * 100) + " %");
+    })
+    $(this).closest("th").next("th").removeClass("hidden");
+  })
+  $(".hideme").on("click", function(){
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).addClass("hidden");
+    $(event.target).closest("div").children("button").html("Select a Profile" + " ").append($("<span class='caret'>"));
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
+        $(cell).text(""); 
+    })
+    $(this).closest("th").addClass("hidden");
+  })
+  $(".yourself").on("click", function(){
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).removeClass("hidden");
+    $(event.target).closest("div").children("button").html("Your Results!" + " ").append($("<span class='caret'>"));
+    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
+        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %");   
+    })
+    $(this).closest("th").next("th").removeClass("hidden");
+  })
+  $("#insert0").on("click", function(){
+      $("td").removeClass("hidden");
+      $("th").removeClass("hidden");
+  });
+  $('#getPersonalityBtn').on('click', () => {
+    if ($("#getPersonalityBtn").hasClass("disabled") === false) {
+      app.checkPersonality();
+    }
+  });
+});
 
 var authorization = {
   userJSONObject: {
@@ -503,18 +717,18 @@ var authorization = {
       console.log(temp);
       var userRef = database.ref("/users/" + temp);
       console.log(userRef);
-    	userRef.set({
-      	name: authorization.newUserName,
-      	email: authorization.newUserEmail,
-      	picture: authorization.newUserPicture,
+      userRef.set({
+        name: authorization.newUserName,
+        email: authorization.newUserEmail,
+        picture: authorization.newUserPicture,
         JsonObj: authorization.jsonObj,
-    	});    
+      });    
       // $("#newUserModal").modal("hide");
       // authorization.hideModal();
-  		$("#name").text(authorization.newUserName);
-  		$("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
-  	})
-	}
+      $("#name").text(authorization.newUserName);
+      $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
+    })
+  }
 }
 
 var questions = {
@@ -568,6 +782,7 @@ var questions = {
     $("#questionArea").empty().html("<h2>" + questions.questions[i] + "</h2>");
   },
 }
+
 var returnedData = {
   oprah: {
     name: 'Oprah Winfrey',
@@ -628,11 +843,6 @@ var returnedData = {
   newText: "",
   percentileArray:[],
   returnedJSON: {},
-  wordCount: function(text) {
-    text.split(" ");
-    var newWords = text.length;
-    questions.wordCount = questions.wordCount + newWords;
-  },  
   getPercentages: function(jsonObj) {
     jsonObj = JSON.parse(jsonObj);
     for (var i = 0; i<5; i++) {
@@ -657,6 +867,7 @@ var returnedData = {
     });
   }
 }
+
 $(document).ready(function(){   
   // var json = require(["/en_v3.json"]); //with path
   questions.cycleQuestions(0);
@@ -739,8 +950,3 @@ $(document).ready(function(){
       $("th").removeClass("hidden");
   })
 });
-
-                
-
-
-
