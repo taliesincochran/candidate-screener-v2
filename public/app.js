@@ -345,12 +345,11 @@ var authorization = {
         authorization.userEmail = snapshot.val().email;
         authorization.newUserPic = snapshot.val().picture;
         returnedData.returnedJSON = snapshot.val().jsonObj;
-        returnedData.getPercentages(returnedData.returnedJSON);
-        returnedData.renderSunburst(returnedData.returnedJSON);
         $("#name").text(authorization.newUserName);
         $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
         if(snapshot.val().jsonObj !== "") {
           returnedData.renderSunburst(returnedData.returnedJSON);
+          returnedData.getPercentages(returnedData.returnedJSON);
         }
       })
       }, function(error) {
