@@ -19,7 +19,6 @@ var app = {
   record: () => {
     $("#recordButton").on("click", (e) => {
       $("#recordButton").replaceWith("<image src='./images/cancel64.png' id='stop'></image>");
-      visualize();
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(handleSuccess); 
     });
@@ -86,10 +85,10 @@ var app = {
   },
   progressUpdate: () => {
     console.log(app.wordCount);
-    var progressWidth = (app.wordCount / 500) * 100;
+    var progressWidth = (app.wordCount / 100) * 100;
     $("#progressBar").attr("aria-valuenow", app.wordCount);
     $("#progressBar").css("width", progressWidth + "%");
-    if (app.wordCount >= 500) {
+    if (app.wordCount >= 100) {
       $("#getPersonalityBtn").removeClass("disabled");
       $('#getPersonalityBtn').on('click', () => {
         app.checkPersonality();
@@ -232,6 +231,7 @@ var questions = {
 $(document).ready(function(){   
   // var json = require(["/en_v3.json"]); //with path
   questions.cycleQuestions();
+  visualize();
   authorization.showModal();
   $("#sunburstArea").hide();
   console.log("fired");   
