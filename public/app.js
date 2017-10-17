@@ -85,6 +85,12 @@ var app = {
     var answerLength = app.answer.split(" ");
     app.wordCount += answerLength.length;
     $("#wordCount").html(`Word Count: ${app.wordCount}`);
+    app.progressUpdate();
+  },
+  progressUpdate: () => {
+    var progressWidth = (app.wordCount / 600) * 100;
+    $("#progressBar").attr("aria-valuenow", app.wordCount);
+    $("#progressBar").css("width", progressWidth);
   },
   checkPersonality: () => {
     var arrJoin = app.answerArr.join("");
