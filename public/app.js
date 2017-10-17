@@ -41,8 +41,11 @@ var app = {
         mediaRecorder.stop();
         $("#stop").replaceWith("<image src='./images/record64.png' id='recordButton'></image>");
         app.record();
-        if (app.wordCount >= 500) {
+        if (app.wordCount >= 100) {
           $("#getPersonalityBtn").removeClass("disabled");
+          $('#getPersonalityBtn').on('click', () => {
+            app.checkPersonality();
+          });
         };
         questions.cycleQuestions()
       });
@@ -88,9 +91,10 @@ var app = {
     app.progressUpdate();
   },
   progressUpdate: () => {
-    var progressWidth = (app.wordCount / 600) * 100;
+    console.log(app.wordCount);
+    var progressWidth = (app.wordCount / 100) * 100;
     $("#progressBar").attr("aria-valuenow", app.wordCount);
-    $("#progressBar").css("width", progressWidth);
+    $("#progressBar").css("width", progressWidth + "%");
   },
   checkPersonality: () => {
     var arrJoin = app.answerArr.join("");
@@ -221,6 +225,7 @@ var questions = {
 
 $(document).ready(function(){   
   // var json = require(["/en_v3.json"]); //with path
+  visualize();
   questions.cycleQuestions();
   authorization.showModal();
   $("#sunburstArea").hide();
@@ -245,7 +250,6 @@ $(document).ready(function(){
     authorization.makeNewProfile();
     // authorization.hideModal();
   });
-  $("#sendRecordings").on("click", app.sendRecordings);
   app.record();
   // this code must be removed before launch
   $("#test-button").on("click", function() {
@@ -288,11 +292,6 @@ $(document).ready(function(){
   $("#insert0").on("click", function(){
       $("td").removeClass("hidden");
       $("th").removeClass("hidden");
-  });
-  $('#getPersonalityBtn').on('click', () => {
-    if ($("#getPersonalityBtn").hasClass("disabled") === false) {
-      app.checkPersonality();
-    }
   });
 });
 
@@ -693,7 +692,6 @@ var authorization = {
     	 authorization.errorModal();  
     })      
   },  
-	
 	getNewUser: function () {
   	authorization.newUserEmail = $("#newUserEmail").val().trim();
   	console.log(authorization.newUserEmail);
@@ -850,86 +848,3 @@ var visualize = function () {
     );
   }
 };
-$(document).ready(function(){   
-  visualize();
-  // var json = require(["/en_v3.json"]); //with path
-  questions.cycleQuestions(0);
-  authorization.showModal();
-  console.log("fired");   
-  $('#submitNewUser').on("click", function (event) {
-    event.preventDefault();
-    authorization.getNewUser();     
-    authorization.signUp(authorization.newUserEmail, authorization.newUserPassword); 
-  });
-  $('#submitUser').on("click", function(event) {
-    event.preventDefault();
-    authorization.establishedUser();      
-    authorization.signIn(authorization.userEmail, authorization.userPassword);
-  });
-  $("#errorButton").on("click", function() {
-    $("#error").html(authorization.errorMessage);
-    authorization.showModal();
-    // $('#errorModal').modal('hide');
-    console.log(authorization.errorMessage);
-  });
-  $('#submitNewUserProfile').on('click', function() {
-    authorization.makeNewProfile();
-    // authorization.hideModal();
-  });
-  $("#sendRecordings").on("click", app.sendRecordings);
-  app.record();
-  $("#getNextQuestion").on("click", function () {
-    console.log("next question button pressed");
-    if(questions.currentQuestion < questions.questions.length && questions.wordCount < 1000) {
-      questions.currentQuestion++;
-      questions.cycleQuestions(questions.currentQuestion);
-      console.log(questions.currentQuestion);
-    } else if (questions.wordCount > 1000 || questions.currentQuestion > questions.questions.length -1) {
-      $("#recordingArea").addClass("hidden");
-      $("#tabbable-area").removeClass("hidden");
-      // code to get results
-    }
-  });
-  // this code must be removed before launch
-  $("#test-button").on("click", function() {
-    $("#recordingArea").addClass("hidden");
-    $("#tabbable-area").removeClass('hidden')
-  });
-  // end temp code
-  $("#clickTable").on("click", function() {
-    $("td.column" + 0).each(function(i,cell){
-        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %"); 
-    })
-  })
-  $(".oprah, .lebron, .francisco, .pope, .trika, .yudarvish, .krungy, .trump, .obama, .gandhi, .hitler, .castro, .mandela, .thatcher").on("click", function(){
-    var target = $(event.target).attr("class");
-    var targetName = returnedData[target].name;
-    var targetNumber = returnedData[target].percentile;
-    $("td.column" + $(this).closest("div").children("button").attr("data-array")).removeClass("hidden");
-    $(event.target).closest("div").children("button").html(targetName + " ").append($("<span class='caret'>"));
-    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
-        $(cell).text(Math.round(targetNumber[i] * 100) + " %");
-    })
-    $(this).closest("th").next("th").removeClass("hidden");
-})
-  $(".hideme").on("click", function(){
-    $("td.column" + $(this).closest("div").children("button").attr("data-array")).addClass("hidden");
-    $(event.target).closest("div").children("button").html("Select a Profile" + " ").append($("<span class='caret'>"));
-    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
-        $(cell).text(""); 
-    })
-    $(this).closest("th").addClass("hidden");
-})
-  $(".yourself").on("click", function(){
-    $("td.column" + $(this).closest("div").children("button").attr("data-array")).removeClass("hidden");
-    $(event.target).closest("div").children("button").html("Your Results!" + " ").append($("<span class='caret'>"));
-    $("td.column" + $(this).closest("div").children("button").attr("data-array")).each(function(i,cell){
-        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %");   
-    })
-    $(this).closest("th").next("th").removeClass("hidden");
-})
-  $("#insert0").on("click", function(){
-      $("td").removeClass("hidden");
-      $("th").removeClass("hidden");
-  })
-});
