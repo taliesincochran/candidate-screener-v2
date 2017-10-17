@@ -41,12 +41,6 @@ var app = {
         mediaRecorder.stop();
         $("#stop").replaceWith("<image src='./images/record64.png' id='recordButton'></image>");
         app.record();
-        if (app.wordCount >= 100) {
-          $("#getPersonalityBtn").removeClass("disabled");
-          $('#getPersonalityBtn').on('click', () => {
-            app.checkPersonality();
-          });
-        };
         questions.cycleQuestions()
       });
     };
@@ -92,9 +86,15 @@ var app = {
   },
   progressUpdate: () => {
     console.log(app.wordCount);
-    var progressWidth = (app.wordCount / 100) * 100;
+    var progressWidth = (app.wordCount / 500) * 100;
     $("#progressBar").attr("aria-valuenow", app.wordCount);
     $("#progressBar").css("width", progressWidth + "%");
+    if (app.wordCount >= 500) {
+      $("#getPersonalityBtn").removeClass("disabled");
+      $('#getPersonalityBtn').on('click', () => {
+        app.checkPersonality();
+      });
+    };
   },
   checkPersonality: () => {
     var arrJoin = app.answerArr.join("");
