@@ -112,9 +112,9 @@ var app = {
       console.log('success');
       console.log(res);
       app.personalityProfile = res;
-      if(returnedData.returnedJSON !== null) {
-        returnedData.getPercentages(returnedData.returnedJSON);
-        returnedData.renderSunburst(returnedData.returnedJSON);
+      if(app.personalityProfile !== null) {
+        returnedData.getPercentages(app.personalityProfile);
+        returnedData.renderSunburst(app.personalityProfile);
         $("#main").addClass('hidden');;
         $("tabbable-area").removeClass("hidden");
       }
@@ -304,7 +304,7 @@ var authorization = {
 	newUserEmail: "",
 	newUserPassword:  "",
 	newUserName: "",
-	newUserPic: "",
+	newUserPicture: "",
 	userEmail: "",
 	userPassword: "",
 	errorMessage: undefined,
@@ -345,15 +345,15 @@ var authorization = {
       userRef.once("value", function (snapshot) {
         authorization.userName =snapshot.val().name;
         authorization.userEmail = snapshot.val().email;
-        authorization.newUserPic = snapshot.val().picture;
-        returnedData.returnedJSON = snapshot.val().jsonObj;
+        authorization.newUserPicture = snapshot.val().picture;
+        app.personalityProfile = snapshot.val().jsonObj;
         $("#name").text(authorization.newUserName);
         $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
         if(Object.keys(snapshot.val()).indexOf('jsonObj') !== -1) {
           $('#main').addClass('hidden');
           $('#tabbable-area').removeClass('hidden');
-          returnedData.renderSunburst(returnedData.returnedJSON);
-          returnedData.getPercentages(returnedData.returnedJSON);
+          returnedData.renderSunburst(app.personalityProfile);
+          returnedData.getPercentages(app.personalityProfile);
         }
       })
       }, function(error) {
@@ -395,7 +395,7 @@ var authorization = {
         name: authorization.newUserName,
         email: authorization.newUserEmail,
         picture: authorization.newUserPicture,
-        JsonObj: returnedData.returnedJSON,
+        JsonObj: app.personalityProfile,
       });    
       // $("#newUserModal").modal("hide");
       // authorization.hideModal();
@@ -464,7 +464,6 @@ var returnedData = {
   },
   newText: "",
   percentileArray:[],
-  returnedJSON: null,
   getPercentages: function(jsonObj) {
     // jsonObj = JSON.parse(jsonObj);
     for (var i = 0; i<5; i++) {
@@ -485,7 +484,7 @@ var returnedData = {
     $.getJSON(jsonObj, '', function ( profile ) {
       // $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
       var chart = new PersonalitySunburstChart({'selector':'#sunburstChart', 'version': 'v3'});
-      chart.show(profile, authorization.newUserPic);
+      chart.show(profile, authorization.newUserPicture);
     });
   }
 }
