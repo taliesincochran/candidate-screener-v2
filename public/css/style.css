@@ -1,0 +1,8 @@
+#recordingVisualDiv, #getPersonalityBtnDiv {
+	display: flex;
+	justify-content: center;
+}
+
+#stop, #recordButton {
+	padding: 20px;
+}
