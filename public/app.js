@@ -112,7 +112,7 @@ var app = {
       console.log('success');
       console.log(res);
       app.personalityProfile = res;
-      if(app.personalityProfile !== null) {
+      if(Object.keys(app.personalityProfile).indexOf("needs") !== -1) {
         returnedData.getPercentages(app.personalityProfile);
         returnedData.renderSunburst(app.personalityProfile);
         $("#main").addClass('hidden');;
@@ -349,7 +349,8 @@ var authorization = {
         app.personalityProfile = snapshot.val().jsonObj;
         $("#name").text(authorization.newUserName);
         $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
-        if(Object.keys(snapshot.val()).indexOf('jsonObj') !== -1) {
+        if(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1) {
+          console.log(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1);
           $('#main').addClass('hidden');
           $('#tabbable-area').removeClass('hidden');
           returnedData.renderSunburst(app.personalityProfile);
@@ -465,7 +466,6 @@ var returnedData = {
   newText: "",
   percentileArray:[],
   getPercentages: function(jsonObj) {
-    // jsonObj = JSON.parse(jsonObj);
     for (var i = 0; i<5; i++) {
         console.log(jsonObj.personality[i].name);
         for(var j=0; j<6; j++) {     
