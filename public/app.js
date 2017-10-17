@@ -112,10 +112,12 @@ var app = {
       console.log('success');
       console.log(res);
       app.personalityProfile = res;
-      returnedData.getPercentages(returnedData.returnedJSON);
-      returnedData.renderSunburst(returnedData.returnedJSON);
-      $("#main").addClass('hidden');;
-      $("tabbable-area").removeClass("hidden");
+      if(returnedData.returnedJSON !== null) {
+        returnedData.getPercentages(returnedData.returnedJSON);
+        returnedData.renderSunburst(returnedData.returnedJSON);
+        $("#main").addClass('hidden');;
+        $("tabbable-area").removeClass("hidden");
+      }
     })
   }
 }
@@ -347,7 +349,9 @@ var authorization = {
         returnedData.returnedJSON = snapshot.val().jsonObj;
         $("#name").text(authorization.newUserName);
         $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
-        if(snapshot.val().jsonObj !== "") {
+        if(Object.keys(snapshot.val()).indexOf('jsonObj') !== -1) {
+          $('#main').addClass('hidden');
+          $('#tabbable-area').removeClass('hidden');
           returnedData.renderSunburst(returnedData.returnedJSON);
           returnedData.getPercentages(returnedData.returnedJSON);
         }
@@ -460,9 +464,9 @@ var returnedData = {
   },
   newText: "",
   percentileArray:[],
-  returnedJSON: {},
+  returnedJSON: null,
   getPercentages: function(jsonObj) {
-    jsonObj = JSON.parse(jsonObj);
+    // jsonObj = JSON.parse(jsonObj);
     for (var i = 0; i<5; i++) {
         console.log(jsonObj.personality[i].name);
         for(var j=0; j<6; j++) {     
