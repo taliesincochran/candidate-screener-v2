@@ -479,12 +479,11 @@ var returnedData = {
         returnedData.percentileArray.push(jsonObj.values[i].percentile);
     }
   },
-  renderSunburst : function (jsonObj) {
-    // code for sunburst, needs to be linked to query event
-    $.getJSON(jsonObj, '', function ( profile ) {
-      // $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
+  renderSunburst : () => {
+    $.getJSON('./profiles/en_v3.json', '', function ( profile ) {
+      $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
       var chart = new PersonalitySunburstChart({'selector':'#sunburstChart', 'version': 'v3'});
-      chart.show(profile, authorization.newUserPicture);
+      chart.show(profile, './profile_photo.jpg');
     });
   }
 }
