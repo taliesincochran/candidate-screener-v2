@@ -14,7 +14,7 @@ var app = {
   recordings: [],
   blob: undefined,
   answer: "",
-  answerArr: ["I’m an unlikely speaker, not just because I dropped out, but because we’re technically in the same generation. We walked this yard less than a decade apart, studied the same ideas and slept through the same Ec10 lectures. We may have taken different paths to get here, especially if you came all the way from the Quad, but today I want to share what I’ve learned about our generation and the world we’re building together.But first, the last couple of days have brought back a lot of good memories.How many of you remember exactly what you were doing when you got that email telling you that you got into Harvard? I was playing Civilization and I ran downstairs, got my dad, and for some reason, his reaction was to video me opening the email. That could have been a really sad video. I swear getting into Harvard is still the thing my parents are most proud of me for.What about your first lecture at Harvard? Mine was Computer Science 121 with the incredible Harry Lewis. I was late so I threw on a t-shirt and didn’t realize until afterwards it was inside out and backwards with my tag sticking out the front. I couldn’t figure out why no one would talk to me—except one guy, KX Jin, he just went with it. We ended up doing our problem sets together, and now he runs a big part of Facebook. And that, Class of 2017, is why you should be nice to people."],
+  answerArr: [],
   personalityProfile: {},
   record: () => {
     $("#recordButton").on("click", (e) => {
@@ -85,10 +85,10 @@ var app = {
   },
   progressUpdate: () => {
     console.log(app.wordCount);
-    var progressWidth = (app.wordCount / 10) * 100;
+    var progressWidth = (app.wordCount / 500) * 100;
     $("#progressBar").attr("aria-valuenow", app.wordCount);
     $("#progressBar").css("width", progressWidth + "%");
-    if (app.wordCount >= 10) {
+    if (app.wordCount >= 500) {
       $("#getPersonalityBtn").removeClass("disabled");
       $('#getPersonalityBtn').on('click', () => {
         app.checkPersonality();
@@ -307,7 +307,6 @@ var authorization = {
 	newUserEmail: "",
 	newUserPassword:  "",
 	newUserName: "",
-	newUserPicture: "",
 	userEmail: "",
 	userPassword: "",
 	errorMessage: undefined,
@@ -348,10 +347,8 @@ var authorization = {
       userRef.once("value", function (snapshot) {
         authorization.userName =snapshot.val().name;
         authorization.userEmail = snapshot.val().email;
-        authorization.newUserPicture = snapshot.val().picture;
         app.personalityProfile = snapshot.val().jsonObj;
         $("#name").text(authorization.newUserName);
-        $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
         // if(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1) {
         //   console.log(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1);
         //   $('#main').addClass('hidden');
@@ -386,10 +383,6 @@ var authorization = {
       backdrop: 'static'
     });
   	$("#submitNewUserProfile").one("click", function() {
-    	authorization.newUserPicture = $("#newUserPicture").val();
-      if(authorization.newUserPicture === "") {
-        authorization.newUserPicture = "https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg";
-      }
     	authorization.newUserName = $("#newUserName").val().trim();
       var temp = authorization.newUserEmail.replace("@","AT").replace(".","dot");
       console.log(temp);
@@ -398,13 +391,11 @@ var authorization = {
       userRef.set({
         name: authorization.newUserName,
         email: authorization.newUserEmail,
-        picture: authorization.newUserPicture,
         JsonObj: app.personalityProfile,
       });    
       // $("#newUserModal").modal("hide");
       // authorization.hideModal();
       $("#name").text(authorization.newUserName);
-      $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
     })
   }
 }
