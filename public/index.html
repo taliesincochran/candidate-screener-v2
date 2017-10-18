@@ -17,9 +17,11 @@
     <!-- D3 CDN -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <!-- D3 Sunburst Dynamic Image -->
-    <script type="text/javascript" src="https://unpkg.com/personality-sunburst-chart@2.0.4/dist/index.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+    <!-- <script type="text/javascript" src="https://unpkg.com/personality-sunburst-chart@2.0.4/dist/index.js"></script> -->
+    <!-- <script src="https://d3js.org/d3-color.v1.min.js"></script> -->
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js" integrity="sha256-OHkZxrR7EXZQ8MlUC+Ww2+RedaJSP6DEsAukSt023dU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js" integrity="sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -125,47 +127,68 @@
         </div>
         <div id="progressBarDiv">
             <div id="progressBarInnerDiv" class="progress col-xs-6">
-                <div id="progressBar" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div id="progressBar" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10">
                 </div>
             </div>
         </div>
         <div id="getPersonalityBtnDiv" class="row">
             <button id="getPersonalityBtn" type="button" class="btn btn-primary disabled">Generate Profile!</button>
         </div>
-        <div id="sunburstArea" class="row">
-            <div>
-                <div class="row">
-                    <div class="col-sm-6 col-xs-12">
-                        <h2>Personality Profile</h2>
-                        <div id="profile">
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xs-12">
-                        <h2>Personality Sunburst Chart</h2>
-                        <div id="sunburstChart">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    <div id="tabbable-area" class="hidden text-center">
+    <div id="tabbable-area" class="text-center hidden">
         <!-- area where navigation between elements occurs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#sunburst" aria-controls="sunburst" role="tab" data-toggle="tab" aria-expanded="true" id="clickSun">Sunburst Chart</a></li>
-            <li role="presentation"><a href="#compare-table" aria-controls="compare-table" role="tab" data-toggle="tab" aria-expanded="false" id="clickTable">Table for Comparison</a></li>
+            
+            <li role="presentation" class="active"><a href="#compare-table" aria-controls="compare-table" role="tab" data-toggle="tab" aria-expanded="true" id="clickTable">Table for Comparison</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bar Charts
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#barChart" aria-controls="barChart" role="tab" data-toggle="tab" aria-expanded="false" id="clickBar">Common Bar Charts</a>
+                    </li>
+                    <li>
+                        <a href="#barChartv2" aria-controls="barChartv2" role="tab" data-toggle="tab" aria-expanded="false" id="clickBarv2">Polarizing Bar Charts</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Line Charts
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#lineChart" aria-controls="lineChart" role="tab" data-toggle="tab" aria-expanded="false" id="clickLine">Common Line Charts</a>
+                    </li>
+                    <li>
+                        <a href="#lineChartv2" aria-controls="lineChartv2" role="tab" data-toggle="tab" aria-expanded="false" id="clickLinev2">Polarizing Line Charts</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Radar Charts
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#radarChart" aria-controls="radarChart" role="tab" data-toggle="tab" aria-expanded="false" id="clickRadar">Common Radar Charts</a>
+                    </li>
+                    <li>
+                        <a href="#radarChartv2" aria-controls="radarChartv2" role="tab" data-toggle="tab" aria-expanded="false" id="clickRadarv2">Polarizing Radar Charts</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     
         <div class="tab-content">
 
-            <!-- area for sunburst upon tab click -->
-    <div id='sunburstChart'></div>
-
             <!-- area for comparitive table -->
-            <div role="tabpanel" class="tab-pane fade" id="compare-table">
-            <style type="text/css">
-                #compare-table {margin:2%;}
-            </style>
+            <div role="tabpanel" class="tab-pane fade in active" id="compare-table" style="margin: 2%">
                 <div class="row">
                     <div class="col col-xs-12">
 
@@ -1094,9 +1117,65 @@
                     </div> <!-- closes column -->
                 </div> <!-- closes row -->
             </div> <!-- closes container -->
+
+
+            <!-- bar chart area for reviewing profile upon tab click -->
+            <div role="tabpanel" class="tab-pane fade" id="barChart" style="margin: 2%">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <canvas id="myChart1" height="135"></canvas>
+                    </div> <!-- closes column -->
+                </div> <!-- closes row -->
+            </div> <!-- closes container -->
+
+            <!-- bar chartv2 area for reviewing profile upon tab click -->
+            <div role="tabpanel" class="tab-pane fade" id="barChartv2" style="margin: 2%">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <canvas id="myChart1v2" height="135"></canvas>
+                    </div> <!-- closes column -->
+                </div> <!-- closes row -->
+            </div> <!-- closes container -->
+
+
+            <!-- line chart area for reviewing profile upon tab click -->
+            <div role="tabpanel" class="tab-pane fade" id="lineChart" style="margin: 2%">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <canvas id="myChart2" height="135"></canvas>
+                    </div> <!-- closes column -->
+                </div> <!-- closes row -->
+            </div> <!-- closes container -->
+
+            <!-- line chartv2 area for reviewing profile upon tab click -->
+            <div role="tabpanel" class="tab-pane fade" id="lineChartv2" style="margin: 2%">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <canvas id="myChart2v2" height="135"></canvas>
+                    </div> <!-- closes column -->
+                </div> <!-- closes row -->
+            </div> <!-- closes container -->
+
+            <!-- radar chart area for reviewing profile upon tab click -->
+            <div role="tabpanel" class="tab-pane fade" id="radarChart" style="margin: 2%">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <canvas id="myChart3" height="135"></canvas>
+                    </div> <!-- closes column -->
+                </div> <!-- closes row -->
+            </div> <!-- closes container -->
+
+            <!-- radar chartv2 area for reviewing profile upon tab click -->
+            <div role="tabpanel" class="tab-pane fade" id="radarChartv2" style="margin: 2%">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <canvas id="myChart3v2" height="135"></canvas>
+                    </div> <!-- closes column -->
+                </div> <!-- closes row -->
+            </div> <!-- closes container -->
         </div>
     </div>
-    <script type="text/javascript" src="javascript/sunburst.js"></script>
+    <!-- <script type="text/javascript" src="javascript/sunburst.js"></script> -->
     <script type="text/javascript" src="javascript/frequency-visualizer.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>

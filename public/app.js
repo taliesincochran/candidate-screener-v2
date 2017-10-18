@@ -14,7 +14,7 @@ var app = {
   recordings: [],
   blob: undefined,
   answer: "",
-  answerArr: [],
+  answerArr: ["I’m an unlikely speaker, not just because I dropped out, but because we’re technically in the same generation. We walked this yard less than a decade apart, studied the same ideas and slept through the same Ec10 lectures. We may have taken different paths to get here, especially if you came all the way from the Quad, but today I want to share what I’ve learned about our generation and the world we’re building together.But first, the last couple of days have brought back a lot of good memories.How many of you remember exactly what you were doing when you got that email telling you that you got into Harvard? I was playing Civilization and I ran downstairs, got my dad, and for some reason, his reaction was to video me opening the email. That could have been a really sad video. I swear getting into Harvard is still the thing my parents are most proud of me for.What about your first lecture at Harvard? Mine was Computer Science 121 with the incredible Harry Lewis. I was late so I threw on a t-shirt and didn’t realize until afterwards it was inside out and backwards with my tag sticking out the front. I couldn’t figure out why no one would talk to me—except one guy, KX Jin, he just went with it. We ended up doing our problem sets together, and now he runs a big part of Facebook. And that, Class of 2017, is why you should be nice to people."],
   personalityProfile: {},
   record: () => {
     $("#recordButton").on("click", (e) => {
@@ -85,10 +85,10 @@ var app = {
   },
   progressUpdate: () => {
     console.log(app.wordCount);
-    var progressWidth = (app.wordCount / 100) * 100;
+    var progressWidth = (app.wordCount / 10) * 100;
     $("#progressBar").attr("aria-valuenow", app.wordCount);
     $("#progressBar").css("width", progressWidth + "%");
-    if (app.wordCount >= 100) {
+    if (app.wordCount >= 10) {
       $("#getPersonalityBtn").removeClass("disabled");
       $('#getPersonalityBtn').on('click', () => {
         app.checkPersonality();
@@ -114,8 +114,11 @@ var app = {
       // if(Object.keys(app.personalityProfile).indexOf("needs") !== -1) {
         returnedData.getPercentages(app.personalityProfile);
         // returnedData.renderSunburst(app.personalityProfile);
-        $("#main").addClass('hidden');;
-        $("tabbable-area").removeClass("hidden");
+        $("#main").addClass('hidden');
+        $("#tabbable-area").removeClass("hidden");
+      $("td.column" + 0).each(function(i,cell){
+      $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %"); 
+      })        
       // }
     })
   }
@@ -257,16 +260,16 @@ $(document).ready(function(){
   });
   app.record();
   // this code must be removed before launch
-  $("#test-button").on("click", function() {
-    $("#recordingArea").addClass("hidden");
-    $("#tabbable-area").removeClass('hidden')
-  });
+  // $("#test-button").on("click", function() {
+  //   $("#recordingArea").addClass("hidden");
+  //   $("#tabbable-area").removeClass('hidden')
+  // });
   // end temp code
-  $("#clickTable").on("click", function() {
-    $("td.column" + 0).each(function(i,cell){
-        $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %"); 
-    })
-  })
+  // $("#getPersonalityBtn").on("click", function() {
+  //   $("td.column" + 0).each(function(i,cell){
+  //       $(cell).text(Math.round(returnedData.percentileArray[i] * 100) + " %"); 
+  //   })
+  // })
   $(".oprah, .lebron, .francisco, .pope, .trika, .yudarvish, .krungy, .trump, .obama, .gandhi, .hitler, .castro, .mandela, .thatcher").on("click", function(){
     var target = $(event.target).attr("class");
     var targetName = returnedData[target].name;
@@ -486,7 +489,7 @@ var returnedData = {
 //       chart.show(profile, './profile_photo.jpg');
 //     });
 //   }
-// }
+}
 var visualize = function () {
   var context = new AudioContext();
   var visCanvas = document.getElementById('visualizer')
@@ -516,3 +519,484 @@ var visualize = function () {
     );
   }
 };
+
+var labels = [
+      "Adventurousness", "Artistic_Interests", "Emotionality", "Imagination", "Intellect", "Authority_Challenging", "Achievement_Striving", "Cautiousness", "Dutifulness", "Orderliness", "Self_Discipline", "Self_Efficacy", "Activity_Level", "Assertiveness", "Cheerfulness", "Excitement_Seeking", "Outgoing", "Gregariousness", "Altruism", "Cooperation", "Modesty", "Uncompromising", "Sympathy", "Trust", "Fiery", "Prone_to_Worry", "Melancholy", "Immoderation", "Self_Consciousness", "Susceptible_to_Stress", "Challenge", "Closeness", "Curiosity", "Excitement", "Harmony", "Ideal", "Liberty", "Love", "Practicality", "Self_Expression", "Stability", "Structure", "Values_Conservation", "Openness_to_Change", "Hedonism", "Self_Enhancement", "Self_Transcendence"
+      ];
+
+    var hasFillCommon = [
+        {label: "Your Results!",
+        data: returnedData.percentileArray,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 1
+        },
+        {label: returnedData.oprah.name,
+        data: returnedData.oprah.percentile,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1
+        },
+        {label: returnedData.francisco.name,
+        data: returnedData.francisco.percentile,
+        backgroundColor:'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.trika.name,
+        data: returnedData.trika.percentile,
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.lebron.name,
+        data: returnedData.lebron.percentile,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.gandhi.name,
+        data: returnedData.gandhi.percentile,
+        backgroundColor:'rgba(153, 102, 255, 0.2)',
+        borderColor:'rgba(153, 102, 255, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.yudarvish.name,
+        data: returnedData.yudarvish.percentile,
+        backgroundColor:'rgba(255, 159, 64, 0.2)',
+        borderColor:'rgba(255, 159, 64, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.krungy.name,
+        data: returnedData.krungy.percentile,
+        backgroundColor:'rgba(50, 204, 86, 0.2)',
+        borderColor:'rgba(50, 204, 86, 1)',
+        borderWidth: 1
+        },
+    ]
+
+    var hasFillPolarize = [
+        {label: "Your Results!",
+        data: returnedData.percentileArray,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderColor: 'rgba(0,0,0,1)',
+        borderWidth: 1
+        },
+        {label: returnedData.castro.name,
+        data: returnedData.castro.percentile,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1
+        },
+        {label: returnedData.pope.name,
+        data: returnedData.pope.percentile,
+        backgroundColor:'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.thatcher.name,
+        data: returnedData.thatcher.percentile,
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.mandela.name,
+        data: returnedData.mandela.percentile,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.obama.name,
+        data: returnedData.obama.percentile,
+        backgroundColor:'rgba(153, 102, 255, 0.2)',
+        borderColor:'rgba(153, 102, 255, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.hitler.name,
+        data: returnedData.hitler.percentile,
+        backgroundColor:'rgba(255, 159, 64, 0.2)',
+        borderColor:'rgba(255, 159, 64, 1)',
+        borderWidth: 1
+        },
+        {label: returnedData.trump.name,
+        data: returnedData.trump.percentile,
+        backgroundColor:'rgba(50,204,86, 0.2)',
+        borderColor:'rgba(50,204,86, 1)',
+        borderWidth: 1
+        },
+    ]
+    var noFillCommon = [
+        {label: "Your Results!",
+        data: returnedData.percentileArray,
+        backgroundColor: 'rgba(0, 0, 0, 1)',
+        borderColor: 'rgba(0,0,0,1)',
+        pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+        pointBorderColor: 'rgba(0,0,0,1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.oprah.name,
+        data: returnedData.oprah.percentile,
+        backgroundColor: 'rgba(255, 99, 132, 1)',
+        borderColor: 'rgba(255,99,132,1)',
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+        pointBorderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.francisco.name,
+        data: returnedData.francisco.percentile,
+        backgroundColor:'rgba(54, 162, 235, 1)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        pointBackgroundColor:'rgba(54, 162, 235, 1)',
+        pointBorderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.trika.name,
+        data: returnedData.trika.percentile,
+        backgroundColor: 'rgba(255, 206, 86, 1)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        pointBackgroundColor: 'rgba(255, 206, 86, 1)',
+        pointBorderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.lebron.name,
+        data: returnedData.lebron.percentile,
+        backgroundColor: 'rgba(75, 192, 192, 1)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+        pointBorderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.gandhi.name,
+        data: returnedData.gandhi.percentile,
+        backgroundColor:'rgba(153, 102, 255, 1)',
+        borderColor:'rgba(153, 102, 255, 1)',
+        pointBackgroundColor:'rgba(153, 102, 255, 1)',
+        pointBorderColor:'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.krungy.name,
+        data: returnedData.krungy.percentile,
+        backgroundColor:'rgba(255, 159, 64, 1)',
+        borderColor:'rgba(255, 159, 64, 1)',
+        pointBackgroundColor:'rgba(255, 159, 64, 1)',
+        pointBorderColor:'rgba(255, 159, 64, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.yudarvish.name,
+        data: returnedData.yudarvish.percentile,
+        backgroundColor:'rgba(50,204,86, 1)',
+        borderColor:'rgba(50,204,86, 1)',
+        pointBackgroundColor:'rgba(50,204,86, 1)',
+        pointBorderColor:'rgba(50,204,86, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+    ]
+
+    var noFillPolarize = [
+        {label: "Your Results!",
+        data: returnedData.percentileArray,
+        backgroundColor: 'rgba(0, 0, 0, 1)',
+        borderColor: 'rgba(0,0,0,1)',
+        pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+        pointBorderColor: 'rgba(0,0,0,1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.hitler.name,
+        data: returnedData.hitler.percentile,
+        backgroundColor: 'rgba(255, 99, 132, 1)',
+        borderColor: 'rgba(255,99,132,1)',
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+        pointBorderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.pope.name,
+        data: returnedData.pope.percentile,
+        backgroundColor:'rgba(54, 162, 235, 1)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        pointBackgroundColor:'rgba(54, 162, 235, 1)',
+        pointBorderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.thatcher.name,
+        data: returnedData.thatcher.percentile,
+        backgroundColor: 'rgba(255, 206, 86, 1)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        pointBackgroundColor: 'rgba(255, 206, 86, 1)',
+        pointBorderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.mandela.name,
+        data: returnedData.mandela.percentile,
+        backgroundColor: 'rgba(75, 192, 192, 1)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+        pointBorderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.castro.name,
+        data: returnedData.castro.percentile,
+        backgroundColor:'rgba(153, 102, 255, 1)',
+        borderColor:'rgba(153, 102, 255, 1)',
+        pointBackgroundColor:'rgba(153, 102, 255, 1)',
+        pointBorderColor:'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.trump.name,
+        data: returnedData.trump.percentile,
+        backgroundColor:'rgba(255, 159, 64, 1)',
+        borderColor:'rgba(255, 159, 64, 1)',
+        pointBackgroundColor:'rgba(255, 159, 64, 1)',
+        pointBorderColor:'rgba(255, 159, 64, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+        {label: returnedData.obama.name,
+        data: returnedData.obama.percentile,
+        backgroundColor:'rgba(50,204,86, 1)',
+        borderColor:'rgba(50,204,86, 1)',
+        pointBackgroundColor:'rgba(50,204,86, 1)',
+        pointBorderColor:'rgba(50,204,86, 1)',
+        borderWidth: 1,
+        fill: false,
+        },
+    ]
+
+    var ctx1 = $("#myChart1");
+    var myChart1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: hasFillCommon,
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Personality Measurement'
+                    },
+                    ticks: {
+                        autoSkip: false
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Percentage'
+                    },
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            },
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false,
+                text: 'Comparative Bar Chart'
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: false,
+            }
+        }
+    });
+
+    var ctx1v2 = $("#myChart1v2");
+    var myChart1v2 = new Chart(ctx1v2, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: hasFillPolarize,
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Personality Measurement'
+                    },
+                    ticks: {
+                        autoSkip: false
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Percentage'
+                    },
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            },
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false,
+                text: 'Comparative Bar Chartv2'
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: false,
+            }
+        }
+    });
+
+    var ctx2 = $("#myChart2");
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: noFillCommon,
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Personality Measurement'
+                    },
+                    ticks: {
+                        autoSkip: false
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Percentage'
+                    },
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            },
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false,
+                text: 'Comparative Line Chart'
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: false,
+            }
+        }
+
+    })
+
+    var ctx2v2 = $("#myChart2v2");
+    var myChart2v2 = new Chart(ctx2v2, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: noFillPolarize,
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Personality Measurement'
+                    },
+                    ticks: {
+                        autoSkip: false
+                    },
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Percentage'
+                    },
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            },
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false,
+                text: 'Comparative Line Chartv2'
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: false,
+            }
+        }
+
+    })
+
+    var ctx3 = $("#myChart3");
+    var myChart3 = new Chart(ctx3, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: noFillCommon,
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false,
+                text: 'Comparative Radar Chart'
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: true,
+            }
+        }
+    });
+
+    var ctx3v2 = $("#myChart3v2");
+    var myChart3v2 = new Chart(ctx3v2, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: noFillPolarize,
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: false,
+                text: 'Comparative Radar Chartv2'
+            },
+            tooltips: {
+                position: 'nearest',
+                mode: 'index',
+                intersect: true,
+            }
+        }
+    });
