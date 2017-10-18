@@ -111,12 +111,12 @@ var app = {
       console.log('success');
       console.log(res);
       app.personalityProfile = res;
-      if(Object.keys(app.personalityProfile).indexOf("needs") !== -1) {
+      // if(Object.keys(app.personalityProfile).indexOf("needs") !== -1) {
         returnedData.getPercentages(app.personalityProfile);
-        returnedData.renderSunburst(app.personalityProfile);
+        // returnedData.renderSunburst(app.personalityProfile);
         $("#main").addClass('hidden');;
         $("tabbable-area").removeClass("hidden");
-      }
+      // }
     })
   }
 }
@@ -233,7 +233,7 @@ $(document).ready(function(){
   questions.cycleQuestions();
   visualize();
   authorization.showModal();
-  $("#sunburstArea").hide();
+  // $("#sunburstArea").hide();
   console.log("fired");   
   $('#submitNewUser').on("click", function (event) {
     event.preventDefault();
@@ -349,13 +349,13 @@ var authorization = {
         app.personalityProfile = snapshot.val().jsonObj;
         $("#name").text(authorization.newUserName);
         $("#picture").html("<img src= " + authorization.newUserPicture + " alt= " + authorization.newUserName + ">");
-        if(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1) {
-          console.log(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1);
-          $('#main').addClass('hidden');
-          $('#tabbable-area').removeClass('hidden');
-          returnedData.renderSunburst(app.personalityProfile);
-          returnedData.getPercentages(app.personalityProfile);
-        }
+        // if(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1) {
+        //   console.log(Object.keys(snapshot.val()['jsonObj']).indexOf('needs') !== -1);
+        //   $('#main').addClass('hidden');
+        //   $('#tabbable-area').removeClass('hidden');
+        //   returnedData.renderSunburst(app.personalityProfile);
+        //   returnedData.getPercentages(app.personalityProfile);
+        // }
       })
       }, function(error) {
     	 authorization.errorCode = error.code;     
@@ -479,14 +479,14 @@ var returnedData = {
         returnedData.percentileArray.push(jsonObj.values[i].percentile);
     }
   },
-  renderSunburst : () => {
-    $.getJSON('./profiles/en_v3.json', '', function ( profile ) {
-      $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
-      var chart = new PersonalitySunburstChart({'selector':'#sunburstChart', 'version': 'v3'});
-      chart.show(profile, './profile_photo.jpg');
-    });
-  }
-}
+//   renderSunburst : () => {
+//     $.getJSON('./profiles/en_v3.json', '', function ( profile ) {
+//       $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
+//       var chart = new PersonalitySunburstChart({'selector':'#sunburstChart', 'version': 'v3'});
+//       chart.show(profile, './profile_photo.jpg');
+//     });
+//   }
+// }
 var visualize = function () {
   var context = new AudioContext();
   var visCanvas = document.getElementById('visualizer')
