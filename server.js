@@ -6,8 +6,6 @@ const PersonalityInsightsV3 = require('watson-developer-cloud/personality-insigh
 const bodyParser = require('body-parser');
 const config = require('./config.js');
 const app = express();
-
-console.log('speech: ', config.speechToTextConfig);
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser());
