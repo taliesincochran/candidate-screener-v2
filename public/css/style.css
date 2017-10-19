@@ -18,6 +18,7 @@
 body {
 	background-image: url("../images/vintage-concrete.png");
 }
-table {
+
+table, canvas {
 	background-color: white;
 }
