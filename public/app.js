@@ -8,7 +8,26 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
-
+var sendToFirebase = function () {
+     if(authorization.newUserEmail !== "") {    
+        console.log("fired");    
+        var temp =  authorization.newUserEmail.replace("@","AT").replace(".","dot");
+        var userRef = database.ref("/users/" + temp);
+        userRef.set({
+          name: authorization.newUserName,
+          email: authorization.newUserEmail,
+          jsonObj: JSON.stringify(app.personalityProfile),
+        });   
+      }else if (authorization.userEmail !== "") {        
+        var temp = authorization.userEmail.replace("@","AT").replace(".","dot");
+        var userRef = database.ref("/users/" + temp);
+        userRef.set({
+          name: authorization.userName,
+          email: authorization.userEmail,
+          jsonObj: JSON.stringify(app.personalityProfile),
+        });
+      }
+};
 var app = {
   wordCount: 0,
   recordings: [],
@@ -474,6 +493,7 @@ var returnedData = {
     for (var i = 0; i <5; i++) {
         returnedData.percentileArray.push(jsonObj.values[i].percentile);
     }
+    sendToFirebase();
   },
 //   renderSunburst : () => {
 //     $.getJSON('./profiles/en_v3.json', '', function ( profile ) {

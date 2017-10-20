@@ -22,3 +22,6 @@ body {
 table, canvas {
 	background-color: white;
 }
+canvas {
+	background-color: white;
+}
